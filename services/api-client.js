@@ -5,6 +5,7 @@ import { API_ENDPOINTS } from "@/constants/api-endpoints.constants";
 
 const PUBLIC_AUTH_ENDPOINTS = [API_ENDPOINTS.AUTH.LOGIN];
 
+// CORS allowlist lives on the backend (CORS_ALLOWED_ORIGINS), not here.
 export const apiClient = axios.create({
   baseURL: ENV.apiBaseUrl,
   timeout: 20_000,
