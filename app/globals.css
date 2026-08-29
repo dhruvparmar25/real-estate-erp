@@ -1,22 +1,4 @@
 @import "tailwindcss";
-@import "react-toastify/dist/ReactToastify.css";
-
-/* ToastCard owns toast UI; strip react-toastify defaults */
-.Toastify__toast-container { width: auto !important; padding: 0 !important; }
-.Toastify__toast {
-  padding: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  min-height: unset !important;
-  border-radius: 0 !important;
-  margin-bottom: 8px !important;
-}
-.Toastify__toast-body { padding: 0 !important; margin: 0 !important; align-items: stretch !important; }
-.Toastify__progress-bar { height: 2px !important; background: var(--color-primary) !important; opacity: 0.7 !important; }
-.Toastify__progress-bar--error   { background: var(--color-danger)  !important; }
-.Toastify__progress-bar--warning { background: var(--color-warning) !important; }
-.Toastify__progress-bar--info    { background: var(--color-info)    !important; }
-.Toastify__progress-bar--success { background: var(--color-primary) !important; }
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -49,6 +31,42 @@
   --color-danger-soft: #fee2e2;
   --color-info-soft: #dbeafe;
   --color-primary-soft: #dbeafe;
+
+  --toast-stripe-success: repeating-linear-gradient(
+    -45deg,
+    var(--color-success),
+    var(--color-success) 6px,
+    color-mix(in srgb, var(--color-success) 75%, white) 6px,
+    color-mix(in srgb, var(--color-success) 75%, white) 12px
+  );
+  --toast-stripe-info: repeating-linear-gradient(
+    -45deg,
+    var(--color-info),
+    var(--color-info) 6px,
+    color-mix(in srgb, var(--color-info) 75%, white) 6px,
+    color-mix(in srgb, var(--color-info) 75%, white) 12px
+  );
+  --toast-stripe-warning: repeating-linear-gradient(
+    -45deg,
+    var(--color-warning),
+    var(--color-warning) 6px,
+    color-mix(in srgb, var(--color-warning) 75%, white) 6px,
+    color-mix(in srgb, var(--color-warning) 75%, white) 12px
+  );
+  --toast-stripe-danger: repeating-linear-gradient(
+    -45deg,
+    var(--color-danger),
+    var(--color-danger) 6px,
+    color-mix(in srgb, var(--color-danger) 75%, white) 6px,
+    color-mix(in srgb, var(--color-danger) 75%, white) 12px
+  );
+  --toast-stripe-primary: repeating-linear-gradient(
+    -45deg,
+    var(--color-primary),
+    var(--color-primary) 6px,
+    color-mix(in srgb, var(--color-primary) 75%, white) 6px,
+    color-mix(in srgb, var(--color-primary) 75%, white) 12px
+  );
 
   --shadow-popover: 0 10px 25px rgba(15, 23, 42, 0.1), 0 4px 10px rgba(15, 23, 42, 0.06);
 
@@ -139,25 +157,27 @@ html.dark {
   from { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
   to   { opacity: 0; transform: translate3d(20px, -8px, 0) scale(0.96); }
 }
-@keyframes toast-progress {
-  from { transform: scaleX(1); }
-  to   { transform: scaleX(0); }
-}
 @keyframes toast-spin {
   to { transform: rotate(360deg); }
 }
 .toast-enter { animation: toast-slide-in 220ms cubic-bezier(0.21, 1.02, 0.73, 1) both; }
 .toast-exit  { animation: toast-slide-out 200ms cubic-bezier(0.06, 0.71, 0.55, 1) both; }
-.toast-progress-bar {
+.toast-timer-bar {
+  width: 100%;
   transform-origin: left center;
-  animation-name: toast-progress;
+  animation-name: toast-timer-shrink;
   animation-timing-function: linear;
-  animation-iteration-count: 1;
   animation-fill-mode: forwards;
-  animation-play-state: running;
-  will-change: transform;
 }
-.toast-card:hover .toast-progress-bar { animation-play-state: paused; }
+@keyframes toast-timer-shrink {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+.toast-progress-success { background: var(--toast-stripe-success); }
+.toast-progress-error   { background: var(--toast-stripe-danger); }
+.toast-progress-warning { background: var(--toast-stripe-warning); }
+.toast-progress-info    { background: var(--toast-stripe-info); }
+.toast-progress-loading { background: var(--toast-stripe-primary); }
 .toast-spin { animation: toast-spin 0.9s linear infinite; }
 
 @keyframes app-spinner { to { transform: rotate(360deg); } }

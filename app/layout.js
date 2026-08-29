@@ -18,7 +18,7 @@ export default async function RootLayout({ children }) {
       className={initialTheme === "dark" ? "dark" : ""}
       suppressHydrationWarning
     >
-      <body>
+      <body suppressHydrationWarning>
         <AppProviders initialTheme={initialTheme}>{children}</AppProviders>
       </body>
     </html>

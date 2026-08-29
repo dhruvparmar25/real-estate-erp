@@ -11,25 +11,23 @@ const LOGO = {
 };
 
 export default function BrandLogo({ className, priority = false }) {
-  const shared = {
-    width: LOGO.width,
-    height: LOGO.height,
-    alt: LOGO.alt,
-    priority,
-    className: cn("w-auto object-contain select-none", className),
-  };
-
   return (
     <>
       <Image
         src={LOGO.light}
-        {...shared}
-        className={cn(shared.className, "block dark:hidden")}
+        alt={LOGO.alt}
+        width={LOGO.width}
+        height={LOGO.height}
+        priority={priority}
+        className={cn("w-auto object-contain select-none block dark:hidden", className)}
       />
       <Image
         src={LOGO.dark}
-        {...shared}
-        className={cn(shared.className, "hidden dark:block")}
+        alt={LOGO.alt}
+        width={LOGO.width}
+        height={LOGO.height}
+        priority={priority}
+        className={cn("w-auto object-contain select-none hidden dark:block", className)}
       />
     </>
   );

@@ -4,6 +4,7 @@ import { format, parseISO, isValid, parse, addMonths, subMonths, startOfMonth, g
 import { Icon } from "@/components/common/Icon";
 import { cn } from "@/utils/cn";
 import { ENV } from "@/config/env";
+import { useMounted } from "@/hooks/use-mounted";
 function isoToDate(iso) {
     if (!iso)
         return null;
@@ -42,8 +43,9 @@ function MonthGrid({ viewMonth, selected, today, minDate, maxDate, onSelect, }) 
 }
 export default function DateField({ label, value, onChange, onBlur, error, placeholder, hint, required, containerClassName, disabled, min, max, }) {
     const selectedDate = isoToDate(value);
+    const mounted = useMounted();
+    const today = mounted ? new Date() : null;
     const [open, setOpen] = useState(false);
-    const [today, setToday] = useState(null);
     const [viewMonth, setViewMonth] = useState(() => selectedDate ?? new Date());
     const [inputText, setInputText] = useState(() => isoToDisplay(value));
     const [prevValue, setPrevValue] = useState(value);
@@ -66,9 +68,6 @@ export default function DateField({ label, value, onChange, onBlur, error, place
         document.addEventListener("mousedown", handle);
         return () => document.removeEventListener("mousedown", handle);
     }, [open, onBlur]);
-    useEffect(() => {
-        setToday(new Date());
-    }, []);
     const commitText = useCallback((text) => {
         const trimmed = text.trim();
         if (!trimmed) {

@@ -1,11 +1,10 @@
 "use client";
 
 import { Suspense, useEffect } from "react";
-import { ToastContainer } from "react-toastify";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import { AuthBootstrap } from "@/components/auth/AuthBootstrap";
 import RouteProgressBar from "@/components/common/RouteProgressBar";
-import { ENV } from "@/config/env";
+import { ToastHost } from "@/components/common/ToastHost";
 import { useUiStore } from "@/store/ui.store";
 
 function ThemeSync({ initialTheme }) {
@@ -21,8 +20,6 @@ function ThemeSync({ initialTheme }) {
 }
 
 export function AppProviders({ children, initialTheme = "light" }) {
-  const { toast } = ENV;
-
   return (
     <QueryProvider>
       <ThemeSync initialTheme={initialTheme} />
@@ -31,22 +28,7 @@ export function AppProviders({ children, initialTheme = "light" }) {
       <Suspense fallback={null}>
         <RouteProgressBar />
       </Suspense>
-      <ToastContainer
-        position={toast.position}
-        newestOnTop
-        closeButton={false}
-        icon={false}
-        closeOnClick={false}
-        draggable={false}
-        limit={toast.limit}
-        style={{ top: toast.offsetTop, right: toast.offsetRight, width: "auto" }}
-        toastStyle={{
-          padding: 0,
-          background: "transparent",
-          boxShadow: "none",
-          minHeight: "unset",
-        }}
-      />
+      <ToastHost />
     </QueryProvider>
   );
 }

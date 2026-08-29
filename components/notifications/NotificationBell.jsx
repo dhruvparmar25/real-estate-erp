@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Icon } from "@/components/common/Icon";
+import { useMounted } from "@/hooks/use-mounted";
 import { getEventConfig } from "./notificationHelpers";
 import { ROUTES } from "@/constants/routes.constants";
 import { useUnreadCount } from "@/hooks/features/notifications/use-unread-count";
@@ -25,11 +26,12 @@ function timeAgo(dateStr) {
 
 export default function NotificationBell() {
   const router = useRouter();
+  const mounted = useMounted();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const { data: unreadData } = useUnreadCount();
-  const unreadCount = unreadData?.unread ?? 0;
+  const unreadCount = mounted ? (unreadData?.unread ?? 0) : 0;
 
   const { data: listData, isLoading: loading } = useNotificationsList(
     { page_size: 10 },

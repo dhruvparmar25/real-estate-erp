@@ -10,6 +10,8 @@ import accountPlusOutline from "@iconify-icons/mdi/account-plus-outline";
 import accountQuestionOutline from "@iconify-icons/mdi/account-question-outline";
 import accountSupervisorOutline from "@iconify-icons/mdi/account-supervisor-outline";
 import accountTieOutline from "@iconify-icons/mdi/account-tie-outline";
+import alert from "@iconify-icons/mdi/alert";
+import alertCircle from "@iconify-icons/mdi/alert-circle";
 import alertCircleOutline from "@iconify-icons/mdi/alert-circle-outline";
 import alertDecagramOutline from "@iconify-icons/mdi/alert-decagram-outline";
 import android from "@iconify-icons/mdi/android";
@@ -91,9 +93,11 @@ import heartPulse from "@iconify-icons/mdi/heart-pulse";
 import helpCircleOutline from "@iconify-icons/mdi/help-circle-outline";
 import hospitalBuilding from "@iconify-icons/mdi/hospital-building";
 import imageOutline from "@iconify-icons/mdi/image-outline";
+import information from "@iconify-icons/mdi/information";
 import informationOutline from "@iconify-icons/mdi/information-outline";
 import keyOutline from "@iconify-icons/mdi/key-outline";
 import keyboardOutline from "@iconify-icons/mdi/keyboard-outline";
+import loading from "@iconify-icons/mdi/loading";
 import lockClock from "@iconify-icons/mdi/lock-clock";
 import lockOutline from "@iconify-icons/mdi/lock-outline";
 import logout from "@iconify-icons/mdi/logout";
@@ -174,6 +178,8 @@ const MDI = {
     "account-question-outline": accountQuestionOutline,
     "account-supervisor-outline": accountSupervisorOutline,
     "account-tie-outline": accountTieOutline,
+    "alert": alert,
+    "alert-circle": alertCircle,
     "alert-circle-outline": alertCircleOutline,
     "alert-decagram-outline": alertDecagramOutline,
     "android": android,
@@ -254,9 +260,11 @@ const MDI = {
     "help-circle-outline": helpCircleOutline,
     "hospital-building": hospitalBuilding,
     "image-outline": imageOutline,
+    "information": information,
     "information-outline": informationOutline,
     "key-outline": keyOutline,
     "keyboard-outline": keyboardOutline,
+    "loading": loading,
     "lock-clock": lockClock,
     "lock-outline": lockOutline,
     "logout": logout,

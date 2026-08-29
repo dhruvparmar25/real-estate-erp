@@ -135,9 +135,9 @@ export default function NotificationsClient() {
   const { data: listData, isLoading: loading, isError } = useNotificationsList(listFilters);
   const { data: unreadData } = useUnreadCount();
 
-  const notifications = listData?.results ?? [];
-  const total = listData?.count ?? 0;
-  const unreadTotal = unreadData?.unread ?? 0;
+  const notifications = mounted ? (listData?.results ?? []) : [];
+  const total = mounted ? (listData?.count ?? 0) : 0;
+  const unreadTotal = mounted ? (unreadData?.unread ?? 0) : 0;
 
   const { markRead, markAllRead, remove } = useNotificationMutations();
 
@@ -337,7 +337,7 @@ export default function NotificationsClient() {
         )}
       </div>
 
-      {loading ? (
+      {loading || !mounted ? (
         <div className="flex items-center justify-center py-20">
           <div className="w-8 h-8 border-4 border-(--color-primary) border-t-transparent rounded-full animate-spin" />
         </div>
