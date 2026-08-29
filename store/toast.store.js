@@ -12,6 +12,8 @@ const DEFAULT_DURATIONS = {
 };
 
 const timers = new Map();
+export const TOAST_ENTER_MS = 420;
+export const TOAST_EXIT_MS = 300;
 
 function clearTimer(id) {
   const timer = timers.get(id);
@@ -68,12 +70,26 @@ export const useToastStore = create((set, get) => ({
 
   dismiss(id) {
     clearTimer(id);
-    set((state) => ({ toasts: state.toasts.filter((t) => t.id !== id) }));
+    const toast = get().toasts.find((t) => t.id === id);
+    if (!toast || toast.exiting) return;
+
+    set((state) => ({
+      toasts: state.toasts.map((t) => (t.id === id ? { ...t, exiting: true } : t)),
+    }));
+
+    setTimeout(() => {
+      set((state) => ({ toasts: state.toasts.filter((t) => t.id !== id) }));
+    }, TOAST_EXIT_MS);
   },
 
   dismissAll() {
     get().toasts.forEach((t) => clearTimer(t.id));
-    set({ toasts: [] });
+    set((state) => ({
+      toasts: state.toasts.map((t) => ({ ...t, exiting: true })),
+    }));
+    setTimeout(() => {
+      set({ toasts: [] });
+    }, TOAST_EXIT_MS);
   },
 
   resolve(id, { variant, title, description, duration }) {
