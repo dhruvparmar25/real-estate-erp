@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { ENV } from "@/config/env";
-import { PUBLIC_ROUTES, ROUTES } from "@/constants/routes";
+import { PUBLIC_ROUTES, ROUTES } from "@/constants/routes.constants";
 
-export function proxy(request) {
+export function middleware(request) {
   const { pathname } = request.nextUrl;
   const isPublic = PUBLIC_ROUTES.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`)

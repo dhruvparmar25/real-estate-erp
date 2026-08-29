@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Icon } from "@/components/common/Icon";
-import { stashNavId } from "@/lib/entity-nav";
+import { stashNavId } from "@/utils/entity-nav";
 export default function Breadcrumb({ items }) {
     return (<nav className="flex items-center gap-1.5 text-tiny text-(--color-text-secondary) flex-wrap">
       {items.map((c, i) => {

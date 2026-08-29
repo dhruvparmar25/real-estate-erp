@@ -4,7 +4,7 @@ import { useMounted } from "@/hooks/use-mounted";
 export default function SearchableSelect({ label, options, value, onChange, minWidth = 140, }) {
     const mounted = useMounted();
     const isActive = value !== "all";
-    // SSR / first-hydration fallback — avoids emotion CSS mismatch
+    // SSR fallback — avoids react-select CSS mismatch on hydration.
     if (!mounted) {
         return (<select value={value} onChange={(e) => onChange(e.target.value)} aria-label={label} style={{ minWidth, height: 36 }} className="appearance-none rounded-lg border border-(--color-border) bg-(--color-surface) text-small text-(--color-text-primary) px-3 cursor-pointer" suppressHydrationWarning>
         <option value="all">{label}: All</option>
@@ -123,5 +123,5 @@ export default function SearchableSelect({ label, options, value, onChange, minW
             fontSize: "0.875rem",
         }),
     };
-    return (<Select instanceId={label} options={options} value={selected} onChange={(opt) => onChange(opt ? opt.value : "all")} placeholder={`${label}: All`} isClearable={isActive} isSearchable styles={styles} menuPortalTarget={document.body} menuPosition="fixed" aria-label={label} noOptionsMessage={() => "No options"}/>);
+    return (<Select instanceId={label} options={options} value={selected} onChange={(opt) => onChange(opt ? opt.value : "all")} placeholder={`${label}: All`} isClearable={isActive} isSearchable styles={styles} menuPortalTarget={mounted ? document.body : undefined} menuPosition="fixed" aria-label={label} noOptionsMessage={() => "No options"}/>);
 }

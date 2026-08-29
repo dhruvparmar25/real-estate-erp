@@ -151,7 +151,7 @@ export default function SearchableSelectField({ label, options, value = "", onCh
     }
     return (<div className={cn("flex flex-col gap-1.5", containerClassName)}>
       {labelEl}
-      <Select options={options} value={selected} onChange={(opt) => onChange?.(opt ? opt.value : "")} onBlur={onBlur} placeholder={placeholder} isClearable={isClearable} isSearchable isDisabled={isDisabled} styles={styles} formatOptionLabel={formatOptionLabel} filterOption={filterOption} menuPortalTarget={document.body} menuPosition="fixed" noOptionsMessage={() => "No options"}/>
+      <Select options={options} value={selected} onChange={(opt) => onChange?.(opt ? opt.value : "")} onBlur={onBlur} placeholder={placeholder} isClearable={isClearable} isSearchable isDisabled={isDisabled} styles={styles} formatOptionLabel={formatOptionLabel} filterOption={filterOption} menuPortalTarget={mounted ? document.body : undefined} menuPosition="fixed" noOptionsMessage={() => "No options"}/>
       {feedbackEl}
     </div>);
 }

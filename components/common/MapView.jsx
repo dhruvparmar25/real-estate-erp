@@ -27,6 +27,7 @@ function LoadedMapView({ markers, height = DEFAULT_MAP_HEIGHT, zoom, className, 
     const { isLoaded, loadError } = useJsApiLoader({
         id: "re-erp-google-maps",
         googleMapsApiKey: ENV.googleMapsApiKey,
+        libraries: [],
     });
     const validMarkers = useMemo(() => markers.filter((m) => isValidCoord(m.lat, m.lng)), [markers]);
     const center = useMemo(() => {
@@ -37,13 +38,14 @@ function LoadedMapView({ markers, height = DEFAULT_MAP_HEIGHT, zoom, className, 
     }, [validMarkers]);
     const mapZoom = zoom ?? (validMarkers.length === 1 ? SINGLE_MARKER_ZOOM : DEFAULT_MAP_ZOOM);
     const onLoad = useCallback((map) => {
-        if (validMarkers.length < 2)
-            return;
-        const bounds = new google.maps.LatLngBounds();
-        for (const marker of validMarkers) {
-            bounds.extend({ lat: marker.lat, lng: marker.lng });
-        }
-        map.fitBounds(bounds, 48);
+        if (validMarkers.length < 2) return;
+        try {
+            const bounds = new google.maps.LatLngBounds();
+            for (const marker of validMarkers) {
+                bounds.extend({ lat: marker.lat, lng: marker.lng });
+            }
+            map.fitBounds(bounds, 48);
+        } catch {}
     }, [validMarkers]);
     if (loadError) {
         return (<Frame height={height} className={className}>

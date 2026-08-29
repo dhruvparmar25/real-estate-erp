@@ -1,17 +1,22 @@
 "use client";
 
+import { useCallback } from "react";
 import { useAuthStore } from "@/store/auth.store";
 import { ROLES } from "@/constants/roles.constants";
 
 export function usePermission() {
-  const permissions = useAuthStore((state) => state.permissions);
-  const user = useAuthStore((state) => state.user);
+  const role = useAuthStore((s) => s.user?.role);
+  const permissions = useAuthStore((s) => s.permissions);
 
-  function hasPermission(action, resource) {
-    if (user?.role === ROLES.SUPER_ADMIN) return true;
-    const key = `${String(resource).toLowerCase()}:${String(action).toLowerCase()}`;
-    return permissions.includes(key);
-  }
+  const hasPermission = useCallback(
+    (action, resource) => {
+      if (role === ROLES.SUPER_ADMIN) return true;
+      return permissions.includes(
+        `${String(resource).toLowerCase()}:${String(action).toLowerCase()}`
+      );
+    },
+    [role, permissions]
+  );
 
   return { hasPermission };
 }

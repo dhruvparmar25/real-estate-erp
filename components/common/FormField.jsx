@@ -68,7 +68,7 @@ const CustomOption = (props) => {
 };
 export function SearchSelectField({ label, error, hint, required, containerClassName, options, value, onChange, onBlur, placeholder = "Select…", disabled, creatable, }) {
     const mounted = useMounted();
-    // When `creatable`, the value may be a user-typed string not in options — synthesize the option for display
+    // User-typed creatable values may not exist in options yet.
     const selected = options.find((o) => o.value === value) || (value && creatable ? { value, label: value } : null);
     if (!mounted) {
         return (<FieldWrapper label={label} error={error} hint={hint} required={required} containerClassName={containerClassName}>
@@ -186,13 +186,13 @@ export function SearchSelectField({ label, error, hint, required, containerClass
     };
     if (creatable) {
         return (<FieldWrapper label={label} error={error} hint={hint} required={required} containerClassName={containerClassName}>
-        <CreatableSelect instanceId={`creatable-${label || placeholder}`} options={options} value={selected} onChange={(opt) => onChange?.(opt ? opt.value : "")} onBlur={onBlur} isDisabled={disabled} placeholder={placeholder} isClearable isSearchable styles={styles} menuPortalTarget={document.body} menuPosition="fixed" formatCreateLabel={(v) => `Create "${v}"`} aria-label={label} noOptionsMessage={() => "No options found"} components={{ Option: CustomOption }}/>
+        <CreatableSelect instanceId={`creatable-${label || placeholder}`} options={options} value={selected} onChange={(opt) => onChange?.(opt ? opt.value : "")} onBlur={onBlur} isDisabled={disabled} placeholder={placeholder} isClearable isSearchable styles={styles} menuPortalTarget={mounted ? document.body : undefined} menuPosition="fixed" formatCreateLabel={(v) => `Create "${v}"`} aria-label={label} noOptionsMessage={() => "No options found"} components={{ Option: CustomOption }}/>
       </FieldWrapper>);
     }
     return (<FieldWrapper label={label} error={error} hint={hint} required={required} containerClassName={containerClassName}>
       <Select instanceId={label || placeholder} options={options} value={selected} onChange={(opt) => {
             onChange?.(opt ? opt.value : "");
-        }} onBlur={onBlur} isDisabled={disabled} placeholder={placeholder} isClearable isSearchable styles={styles} menuPortalTarget={document.body} menuPosition="fixed" aria-label={label} noOptionsMessage={() => "No options found"} components={{ Option: CustomOption }}/>
+        }} onBlur={onBlur} isDisabled={disabled} placeholder={placeholder} isClearable isSearchable styles={styles} menuPortalTarget={mounted ? document.body : undefined} menuPosition="fixed" aria-label={label} noOptionsMessage={() => "No options found"} components={{ Option: CustomOption }}/>
     </FieldWrapper>);
 }
 export function FormSelectField({ name, control, ...rest }) {

@@ -14,7 +14,6 @@ const PRESETS = [
     { id: "last_30", label: "Last 30 Days", compute: () => ({ from: fmt(subDays(new Date(), 29)), to: fmt(new Date()) }) },
     { id: "this_month", label: "This Month", compute: () => { const d = new Date(); return { from: fmt(startOfMonth(d)), to: fmt(endOfMonth(d)) }; } },
 ];
-/** Same format as `formatDate` (driven by `ENV.defaultDateFormat`). */
 function rangeLabel(range) {
     if (!range.from || !range.to)
         return "All";
@@ -31,7 +30,6 @@ export default function DateRangeFilter({ value, onChange, label = "Date range",
     const [alignRight, setAlignRight] = useState(false);
     const wrapRef = useRef(null);
     const popupRef = useRef(null);
-    // Close on outside click / Escape.
     useEffect(() => {
         if (!open)
             return;
@@ -56,7 +54,6 @@ export default function DateRangeFilter({ value, onChange, label = "Date range",
             document.removeEventListener("keydown", onKey);
         };
     }, [open]);
-    // Decide left- vs right-anchored popup based on available space.
     useLayoutEffect(() => {
         if (!open || !wrapRef.current)
             return;
@@ -92,7 +89,6 @@ export default function DateRangeFilter({ value, onChange, label = "Date range",
         setOpen(false);
     };
     const isActive = !!(value.from && value.to);
-    // Effective range = committed range OR (pick-start → hovered) preview.
     const previewRange = useMemo(() => {
         if (pickingFrom && hovered) {
             const start = parseISO(pickingFrom);
@@ -105,7 +101,6 @@ export default function DateRangeFilter({ value, onChange, label = "Date range",
         return null;
     }, [pickingFrom, hovered, value.from, value.to]);
     return (<div ref={wrapRef} className={cn("relative inline-block", className)}>
-      {/* Trigger: outer wrapper, inner clear button (avoids nested <button>) */}
       <div className={cn("h-9 inline-flex items-stretch rounded-lg border text-small min-w-[150px] overflow-hidden", "transition-colors", isActive
             ? "border-(--color-primary)/30 bg-(--color-primary)/[0.06]"
             : "border-(--color-border) bg-(--color-surface) hover:border-(--color-primary)/30")}>
@@ -130,7 +125,6 @@ const DateRangePopup = ({ ref, alignRight, viewMonth, setViewMonth, previewRange
     const nextMonth = useMemo(() => addMonths(viewMonth, 1), [viewMonth]);
     return (<div ref={ref} role="dialog" aria-label="Pick date range" className={cn("absolute z-50 top-full mt-1.5", alignRight ? "right-0" : "left-0", "bg-(--color-surface) border border-(--color-border) rounded-xl overflow-hidden", "shadow-[var(--shadow-popover,0_10px_30px_rgba(0,0,0,0.12))]", "max-w-[calc(100vw-1rem)]")}>
       <div className="flex flex-col sm:flex-row">
-        {/* Quick select column */}
         <div className="sm:w-32 flex-shrink-0 border-b sm:border-b-0 sm:border-r border-(--color-border) bg-(--color-bg)/40 p-1.5 sm:p-2 flex sm:flex-col gap-0.5 overflow-x-auto sm:overflow-visible">
           <p className="hidden sm:block text-[10px] font-semibold tracking-wider text-(--color-text-secondary)/80 px-2 pt-0.5 pb-1 whitespace-nowrap">
             QUICK SELECT
@@ -145,9 +139,7 @@ const DateRangePopup = ({ ref, alignRight, viewMonth, setViewMonth, previewRange
           </div>
         </div>
 
-        {/* Calendars column */}
         <div className="p-2" onMouseLeave={() => pickingFrom && setHovered(null)}>
-          {/* Month navigation */}
           <div className="flex items-center justify-between mb-1 px-1">
             <button type="button" onClick={() => setViewMonth(addMonths(viewMonth, -1))} aria-label="Previous month" className="w-6 h-6 rounded-md hover:bg-(--color-bg) text-(--color-text-secondary) inline-flex items-center justify-center">
               <Icon icon="mdi:chevron-left" width={14}/>
@@ -167,7 +159,6 @@ const DateRangePopup = ({ ref, alignRight, viewMonth, setViewMonth, previewRange
         </div>
       </div>
 
-      {/* Mobile-only Reset bar */}
       <div className="sm:hidden px-3 py-2 border-t border-(--color-border)">
         <button type="button" onClick={onReset} className="w-full text-center px-3 py-1.5 rounded-md text-small font-semibold text-(--color-danger) hover:bg-(--color-danger)/10 transition-colors">
           Reset
@@ -175,7 +166,6 @@ const DateRangePopup = ({ ref, alignRight, viewMonth, setViewMonth, previewRange
       </div>
     </div>);
 };
-// ─── Single-month calendar grid ──────────────────────────────────────────
 const WEEK_DAYS = ["S", "M", "T", "W", "T", "F", "S"];
 function CalendarMonth({ month, range, pickingFrom, hovered, setHovered, onDayClick, }) {
     const first = startOfMonth(month);

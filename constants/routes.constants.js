@@ -10,6 +10,7 @@ export const ROUTES = {
   payments: "/payments",
   employees: "/employees",
   clientPortal: "/client-portal",
+  notifications: "/notifications",
 };
 
 export const PUBLIC_ROUTES = [ROUTES.login, ROUTES.forbidden];

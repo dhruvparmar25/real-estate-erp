@@ -8,7 +8,7 @@ function MapSkeleton({ height = DEFAULT_MAP_HEIGHT, className, }) {
       <LoadingSkeleton className="h-full w-full rounded-none"/>
     </div>);
 }
-/** Prefer this over MapView — keeps the Google Maps SDK out of the main bundle. */
+// Code-split Google Maps — keeps SDK out of the main bundle.
 export const MapViewLazy = dynamic(() => import("@/components/common/MapView").then((mod) => mod.MapView), {
     ssr: false,
     loading: () => <MapSkeleton />,

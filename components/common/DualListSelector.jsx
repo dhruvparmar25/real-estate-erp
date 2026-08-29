@@ -56,7 +56,6 @@ export default function DualListSelector({ allItems, selectedIds, onChange, left
         setRightSelection(next);
     }
     return (<div className="flex flex-col md:flex-row gap-4 items-stretch md:h-[var(--desktop-height)]" style={{ "--desktop-height": height }}>
-      {/* Left Panel */}
       <div className="flex-1 flex flex-col border border-(--color-border) rounded-xl overflow-hidden bg-(--color-surface) h-[350px] md:h-auto">
         <div className="p-3 border-b border-(--color-border) bg-(--color-bg)">
           <p className="font-semibold text-small mb-2 flex items-center justify-between">
@@ -89,7 +88,6 @@ export default function DualListSelector({ allItems, selectedIds, onChange, left
         </div>
       </div>
 
-      {/* Middle Controls */}
       <div className="flex md:flex-col justify-center gap-3 p-2 md:p-0">
         <Button variant="outline" size="sm" onClick={handleMoveRight} disabled={leftSelection.size === 0} className="hidden md:flex">
           <Icon icon="mdi:chevron-right" width={20}/>
@@ -105,7 +103,6 @@ export default function DualListSelector({ allItems, selectedIds, onChange, left
         </Button>
       </div>
 
-      {/* Right Panel */}
       <div className={`flex-1 flex flex-col border rounded-xl overflow-hidden transition-colors h-[350px] md:h-auto ${dragOverPanel === "right" ? "border-(--color-primary) bg-(--color-primary)/[0.06]" : "border-(--color-primary)/30 bg-(--color-primary)/[0.02]"}`}>
         <div className="p-3 border-b border-(--color-primary)/20 bg-(--color-primary)/[0.05]">
           <p className="font-semibold text-small mb-1 flex items-center justify-between text-(--color-primary)">

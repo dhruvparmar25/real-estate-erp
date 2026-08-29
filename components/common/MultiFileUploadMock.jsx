@@ -34,7 +34,7 @@ export default function MultiFileUploadMock({ label, hint, accept, maxSizeMB = 1
                 }
             }
             validFiles.push({
-                id: Math.random().toString(36).substring(7),
+                id: crypto.randomUUID(),
                 name: file.name,
                 size: file.size,
                 type: file.type,

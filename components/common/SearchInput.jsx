@@ -1,7 +1,6 @@
 "use client";
 import { Icon } from "@/components/common/Icon";
 import { cn } from "@/utils/cn";
-/** Compact search box used above list tables. */
 export default function SearchInput({ value, onChange, placeholder = "Search…", className, autoFocus, }) {
     return (<div className={cn("relative w-full md:w-60 lg:w-82", className)}>
       <Icon icon="mdi:magnify" width={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-(--color-text-secondary) pointer-events-none"/>

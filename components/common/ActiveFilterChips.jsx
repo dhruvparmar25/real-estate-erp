@@ -1,12 +1,6 @@
 "use client";
 import { Icon } from "@/components/common/Icon";
 import { cn } from "@/utils/cn";
-/**
- * Shows a chip for each select-filter whose value is not `"all"`. Each
- * chip × clears that one filter. Lives between the filter card and the
- * table; renders nothing when no filters are active so the layout
- * stays compact.
- */
 export default function ActiveFilterChips({ selects, values, onClear, onClearAll, className, }) {
     const active = selects
         .map((s) => {

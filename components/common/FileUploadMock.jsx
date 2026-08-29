@@ -48,7 +48,6 @@ export default function FileUploadMock({ label, hint, accept, value, onChange, i
                 return;
             }
         }
-        // Size check: 5MB
         if (file.size > 5 * 1024 * 1024) {
             setLocalError("File size must be less than 5MB.");
             return;

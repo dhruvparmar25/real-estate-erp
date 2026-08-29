@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ROUTES } from "@/constants/routes";
+import { ROUTES } from "@/constants/routes.constants";
 
 export default function ForbiddenPage() {
   return (

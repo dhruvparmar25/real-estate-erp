@@ -2,12 +2,12 @@
 import { toast } from "react-toastify";
 import { ToastCard } from "@/components/common/ToastCard";
 import { ENV } from "@/config/env";
-const BASE_MS = ENV.notificationShowTimeMs;
+
 const DEFAULT_DURATIONS = {
-    info: BASE_MS,
-    success: BASE_MS,
-    warning: Math.round(BASE_MS * 1.25),
-    error: Math.round(BASE_MS * 1.5),
+    info: ENV.toast.baseDurationMs,
+    success: ENV.toast.baseDurationMs,
+    warning: ENV.toast.warningDurationMs,
+    error: ENV.toast.errorDurationMs,
     loading: false,
 };
 const GENERIC_API_MESSAGES = new Set([

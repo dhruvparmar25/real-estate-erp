@@ -3,11 +3,9 @@ import Select, { components } from "react-select";
 import { Icon } from "@/components/common/Icon";
 import { useMounted } from "@/hooks/use-mounted";
 import { cn } from "@/utils/cn";
-// Custom option: checkbox square + label. Click to select; click again to deselect.
 function CheckOption(props) {
     return (<components.Option {...props}>
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        {/* Checkbox indicator */}
         <div style={{
             width: "16px",
             height: "16px",
@@ -155,7 +153,7 @@ export default function SearchableMultiSelectField({ label, options, value = [],
     }
     return (<div className={cn("flex flex-col gap-1.5", containerClassName)}>
       {labelEl}
-      <Select isMulti options={options} value={selected} onChange={(opts) => onChange?.(opts.map((o) => o.value))} onBlur={onBlur} placeholder={placeholder} isSearchable isDisabled={isDisabled} closeMenuOnSelect={false} hideSelectedOptions={false} components={{ Option: CheckOption }} styles={styles} menuPortalTarget={document.body} menuPosition="fixed" noOptionsMessage={() => "No options"}/>
+      <Select isMulti options={options} value={selected} onChange={(opts) => onChange?.(opts.map((o) => o.value))} onBlur={onBlur} placeholder={placeholder} isSearchable isDisabled={isDisabled} closeMenuOnSelect={false} hideSelectedOptions={false} components={{ Option: CheckOption }} styles={styles} menuPortalTarget={mounted ? document.body : undefined} menuPosition="fixed" noOptionsMessage={() => "No options"}/>
       {feedbackEl}
     </div>);
 }

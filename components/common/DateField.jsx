@@ -4,7 +4,6 @@ import { format, parseISO, isValid, parse, addMonths, subMonths, startOfMonth, g
 import { Icon } from "@/components/common/Icon";
 import { cn } from "@/utils/cn";
 import { ENV } from "@/config/env";
-// ── helpers ───────────────────────────────────────────────────────────────────
 function isoToDate(iso) {
     if (!iso)
         return null;
@@ -16,7 +15,6 @@ function isoToDisplay(iso) {
     return d ? format(d, ENV.defaultDateFormat) : "";
 }
 const WEEK_DAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-// ── month calendar grid ───────────────────────────────────────────────────────
 function MonthGrid({ viewMonth, selected, today, minDate, maxDate, onSelect, }) {
     const startWeekday = getDay(startOfMonth(viewMonth));
     const daysInMonth = getDaysInMonth(viewMonth);
@@ -45,7 +43,7 @@ function MonthGrid({ viewMonth, selected, today, minDate, maxDate, onSelect, }) 
 export default function DateField({ label, value, onChange, onBlur, error, placeholder, hint, required, containerClassName, disabled, min, max, }) {
     const selectedDate = isoToDate(value);
     const [open, setOpen] = useState(false);
-    const [today] = useState(() => typeof window === "undefined" ? null : new Date());
+    const [today, setToday] = useState(null);
     const [viewMonth, setViewMonth] = useState(() => selectedDate ?? new Date());
     const [inputText, setInputText] = useState(() => isoToDisplay(value));
     const [prevValue, setPrevValue] = useState(value);
@@ -56,7 +54,6 @@ export default function DateField({ label, value, onChange, onBlur, error, place
         if (selectedDate)
             setViewMonth(selectedDate);
     }
-    // Close calendar on outside click
     useEffect(() => {
         if (!open)
             return;
@@ -69,7 +66,9 @@ export default function DateField({ label, value, onChange, onBlur, error, place
         document.addEventListener("mousedown", handle);
         return () => document.removeEventListener("mousedown", handle);
     }, [open, onBlur]);
-    // Parse display-format text → ISO and call onChange; revert on invalid input
+    useEffect(() => {
+        setToday(new Date());
+    }, []);
     const commitText = useCallback((text) => {
         const trimmed = text.trim();
         if (!trimmed) {
@@ -79,10 +78,10 @@ export default function DateField({ label, value, onChange, onBlur, error, place
         const parsed = parse(trimmed, ENV.defaultDateFormat, new Date());
         if (isValid(parsed)) {
             onChange?.(format(parsed, "yyyy-MM-dd"));
-            setInputText(format(parsed, ENV.defaultDateFormat)); // normalise display
+            setInputText(format(parsed, ENV.defaultDateFormat));
         }
         else {
-            setInputText(isoToDisplay(value)); // revert to last valid value
+            setInputText(isoToDisplay(value));
         }
     }, [onChange, value]);
     const handleInputBlur = () => {
@@ -121,24 +120,18 @@ export default function DateField({ label, value, onChange, onBlur, error, place
         </label>)}
 
       <div className="relative" ref={containerRef}>
-        {/* Input row: text field + clear + calendar toggle */}
         <div className={cn("h-11 w-full flex items-center rounded-lg border border-(--color-border) bg-(--color-surface) px-3 pr-1.5 gap-1 transition", "focus-within:ring-4 focus-within:ring-(--color-primary)/15 focus-within:border-(--color-primary)", error && "border-(--color-danger) focus-within:border-(--color-danger) focus-within:ring-(--color-danger)/15", open && "ring-4 ring-(--color-primary)/15 border-(--color-primary)", disabled && "opacity-60 cursor-not-allowed")} suppressHydrationWarning>
           <input type="text" disabled={disabled} value={inputText} onChange={(e) => setInputText(e.target.value)} onBlur={handleInputBlur} onKeyDown={handleKeyDown} placeholder={displayPlaceholder} className="flex-1 min-w-0 h-full bg-transparent text-small text-(--color-text-primary) placeholder:text-(--color-text-secondary)/80 focus:outline-none disabled:cursor-not-allowed" suppressHydrationWarning/>
 
-          {inputText && !disabled && (<button type="button" tabIndex={-1} 
-        // prevent blur of the text input when clicking the clear button
-        onMouseDown={(e) => e.preventDefault()} onClick={handleClear} className="p-0.5 rounded hover:bg-(--color-bg) text-(--color-text-tertiary) hover:text-(--color-text-secondary) transition-colors flex-shrink-0" aria-label="Clear date">
+          {inputText && !disabled && (<button type="button" tabIndex={-1} onMouseDown={(e) => e.preventDefault()} onClick={handleClear} className="p-0.5 rounded hover:bg-(--color-bg) text-(--color-text-tertiary) hover:text-(--color-text-secondary) transition-colors flex-shrink-0" aria-label="Clear date">
               <Icon icon="mdi:close" width={14}/>
             </button>)}
 
-          <button type="button" disabled={disabled} 
-    // prevent blur of the text input when clicking the calendar icon
-    onMouseDown={(e) => e.preventDefault()} onClick={() => !disabled && setOpen((v) => !v)} className="p-1 text-(--color-text-secondary) hover:text-(--color-primary) transition-colors flex-shrink-0 rounded-md hover:bg-(--color-primary)/10" aria-label="Open calendar">
+          <button type="button" disabled={disabled} onMouseDown={(e) => e.preventDefault()} onClick={() => !disabled && setOpen((v) => !v)} className="p-1 text-(--color-text-secondary) hover:text-(--color-primary) transition-colors flex-shrink-0 rounded-md hover:bg-(--color-primary)/10" aria-label="Open calendar">
             <Icon icon="mdi:calendar-outline" width={18}/>
           </button>
         </div>
 
-        {/* Calendar popover */}
         {open && today && (<div className="absolute top-[calc(100%+4px)] left-0 z-50 bg-(--color-surface) border border-(--color-border) rounded-xl shadow-[var(--shadow-popover)] p-3 w-[272px]">
             <div className="flex items-center justify-between mb-3">
               <button type="button" onClick={() => setViewMonth((m) => subMonths(m, 1))} className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-(--color-bg) text-(--color-text-secondary) transition-colors" aria-label="Previous month">

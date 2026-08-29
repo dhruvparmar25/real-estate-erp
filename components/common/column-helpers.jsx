@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Icon } from "@/components/common/Icon";
 import StatusBadge from "@/components/common/StatusBadge";
 import { initialsOf, formatDate } from "@/utils/format";
-import { stashNavId } from "@/lib/entity-nav";
+import { stashNavId } from "@/utils/entity-nav";
 import { cn } from "@/utils/cn";
 export function avatarColumn({ key = "name", header = "Name", minWidth = "18rem", title, sub, href, stashId, avatarUrl, initials, avatarIcon, square, }) {
     return {

@@ -1,8 +1,6 @@
 import { ICONS } from "@/icons-bundle";
-// Inline-SVG icon. No CDN fetch, no runtime registration — every icon is
-// bundled at build time via `icons-bundle.js`. Using `dangerouslySetInnerHTML`
-// is safe here because the icon bodies are static SVG markup from
-// `@iconify-icons/mdi` / `@iconify-icons/mingcute` packages.
+
+// Static bundled SVG — safe to inject via dangerouslySetInnerHTML.
 export function Icon({ icon, width = 24, height, className, ...rest }) {
     const data = ICONS[icon];
     if (!data) {

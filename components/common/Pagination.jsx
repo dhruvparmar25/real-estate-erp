@@ -1,7 +1,6 @@
 "use client";
 import { Icon } from "@/components/common/Icon";
 import { cn } from "@/utils/cn";
-/** Sentinel value passed when the user picks "All" rows per page. */
 export const PAGE_SIZE_ALL = 9999;
 const DEFAULT_PAGE_SIZES = [10, 20, 50, 100, PAGE_SIZE_ALL];
 const NAV_BTN = "w-9 h-9 inline-flex items-center justify-center rounded-full " +
@@ -19,7 +18,6 @@ export default function Pagination({ page, totalPages, total, pageSize, onPageCh
     const visible = buildPageList(page, totalPages);
     const showNav = totalPages > 1;
     return (<div className="flex flex-col md:flex-row items-stretch md:items-center md:justify-between gap-3">
-      {/* Left: range summary */}
       <p className="text-tiny text-(--color-text-secondary) text-center md:text-left order-2 md:order-1 md:flex-1 md:min-w-[160px]">
         Showing{" "}
         <span className="font-semibold text-(--color-text-primary)">
@@ -29,7 +27,6 @@ export default function Pagination({ page, totalPages, total, pageSize, onPageCh
         <span className="font-semibold text-(--color-text-primary)">{total}</span>
       </p>
 
-      {/* Center: page navigation */}
       <div className="flex items-center justify-center gap-1 order-1 md:order-2 flex-shrink-0">
         {showNav ? (<>
             <button type="button" onClick={() => onPageChange(page - 1)} disabled={page <= 1} className={NAV_BTN} aria-label="Previous page">
@@ -50,7 +47,6 @@ export default function Pagination({ page, totalPages, total, pageSize, onPageCh
           </>) : (<span className="text-tiny text-(--color-text-tertiary)">Page 1 of 1</span>)}
       </div>
 
-      {/* Right: rows-per-page */}
       {onPageSizeChange ? (<div className="flex items-center justify-center md:justify-end gap-2 order-3 flex-shrink-0 md:flex-1 md:min-w-[160px]">
           <label htmlFor="page-size" className="text-tiny text-(--color-text-secondary) whitespace-nowrap">
             Rows per page
@@ -63,13 +59,6 @@ export default function Pagination({ page, totalPages, total, pageSize, onPageCh
         </div>) : (<div className="hidden md:block md:flex-1 md:min-w-[160px] order-3" aria-hidden/>)}
     </div>);
 }
-/**
- * Build the visible page-number list with ellipsis markers.
- * Always shows: first, last, current ± 1.
- *   page=1,  total=10  → [1, 2, 3, "…", 10]
- *   page=5,  total=10  → [1, "…", 4, 5, 6, "…", 10]
- *   page=10, total=10  → [1, "…", 8, 9, 10]
- */
 function buildPageList(page, totalPages) {
     if (totalPages <= 7) {
         return Array.from({ length: totalPages }, (_, i) => i + 1);

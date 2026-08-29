@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Icon } from "@/components/common/Icon";
 import PageHeader from "@/components/common/PageHeader";
 import EmptyState from "@/components/common/EmptyState";
-import { ROUTES } from "@/constants/routes";
+import { ROUTES } from "@/constants/routes.constants";
 export default function ComingSoon({ title, description, icon = "mdi:rocket-launch-outline", parentLabel, parentHref, }) {
     return (<div className="flex flex-col gap-4">
       <PageHeader title={title} breadcrumbs={[

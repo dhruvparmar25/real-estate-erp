@@ -1,5 +1,4 @@
-// Config labels use human tokens (DD/MM/YYYY). Display/parsing uses date-fns
-// patterns via ENV.defaultDateFormat / toDateFnsPattern().
+// UI labels vs date-fns tokens — see toDateFnsPattern().
 
 export const DEFAULT_DATE_FORMAT = "DD/MM/YYYY";
 

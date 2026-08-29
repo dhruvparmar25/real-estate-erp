@@ -4,10 +4,6 @@ import { notifyError } from "@/utils/notify";
 import { Icon } from "@/components/common/Icon";
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const formatSize = (mb) => `${mb} MB`;
-/**
- * Modal that lets users either take a live photo through `getUserMedia`
- * or pick an image file. Returns a `File` to the parent via `onCapture`.
- */
 export default function CameraCaptureModal({ open, onClose, onCapture, allowUpload = true, maxSizeMb = 2, title = "Add photo", }) {
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
@@ -36,7 +32,7 @@ export default function CameraCaptureModal({ open, onClose, onCapture, allowUplo
         setMode("idle");
         onClose();
     };
-    /* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps -- reset state when modal closes externally; safe pattern, runs once per close */
+    /* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps -- reset when parent closes modal */
     useEffect(() => {
         if (open)
             return;
@@ -50,7 +46,6 @@ export default function CameraCaptureModal({ open, onClose, onCapture, allowUplo
         setMode("idle");
     }, [open]);
     /* eslint-enable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
-    // Esc closes the modal.
     useEffect(() => {
         if (!open)
             return;
